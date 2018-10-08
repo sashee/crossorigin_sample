@@ -1,5 +1,9 @@
 const express = require('express')
 
+const handleScript = (req, res) => {
+	res.send(`document.write("loaded, got cookies: ${req.headers.cookie}");`);
+};
+
 {
 	const corsApp = express();
 
@@ -8,7 +12,7 @@ const express = require('express')
 		next();
 	});
 
-	corsApp.get('/script.js', (req, res) => res.sendFile(`${__dirname}/script.js`));
+	corsApp.get('/script.js', handleScript);
 
 	corsApp.listen(3001);
 }
@@ -16,7 +20,7 @@ const express = require('express')
 {
 	const noCorsApp = express();
 
-	noCorsApp.get('/script.js', (req, res) => res.sendFile(`${__dirname}/script.js`));
+	noCorsApp.get('/script.js', handleScript);
 
 	noCorsApp.listen(3002);
 }
